@@ -2,12 +2,13 @@ const unicorn = ["Unic. Pasture"];
 const housing = ["Hut", "Log House"];
 const prod1 = ["Mine"];
 const prod2 = ["Smelter"];
-const other = ["Barn"];
+const other = ["Workshop", "Barn"];
 
 const mainLoop = () => {	
 	autoCatnip();
 	autoHunt();
 	automanuscript();
+	autoCraft();
 
 	game.update();
 
@@ -65,11 +66,11 @@ function getFirstNonMaxed(order){
 
 function autoCraft() {
     var resources = [
-        ["wood",     "beam" ],
-        ["minerals", "slab" ],
+//        ["wood",     "beam" ],
+//        ["minerals", "slab" ],
         ["coal",     "steel"],
-        ["iron",     "plate"],
-        ["oil",     "kerosene"]
+//        ["iron",     "plate"],
+//        ["oil",     "kerosene"]
     ];
 
     for (var i = 0; i < resources.length; i++) {
