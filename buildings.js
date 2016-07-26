@@ -8,8 +8,8 @@ const mainLoop = () => {
 	autoCatnip();
 	autoHunt();
 	automanuscript();
-	autoCraft();
-
+	autoCraft([["coal", "steel"]]);
+	autoPray();
 	game.update();
 
 	buildFromOrder(unicorn);
@@ -17,7 +17,14 @@ const mainLoop = () => {
 		var a = buildFromOrder(prod1);
 		var b = buildFromOrder(prod2);
 		if(!a && !b){
-			buildFromOrder(other);
+			if(!buildFromOrder(other)){
+				autoCraft([
+			        ["wood",     "beam" ],
+			        ["minerals", "slab" ],
+			        ["iron",     "plate"],
+			        ["oil",     "kerosene"]
+			    ])				       
+			}
 		}
 	}
 	
@@ -64,15 +71,7 @@ function getFirstNonMaxed(order){
 	return list[0];
 }
 
-function autoCraft() {
-    var resources = [
-//        ["wood",     "beam" ],
-//        ["minerals", "slab" ],
-        ["coal",     "steel"],
-//        ["iron",     "plate"],
-//        ["oil",     "kerosene"]
-    ];
-
+function autoCraft(resources) {
     for (var i = 0; i < resources.length; i++) {
         var curRes = gamePage.resPool.get(resources[i][0]);
         if (curRes.value / curRes.maxValue > 0.90
@@ -115,4 +114,15 @@ function autoCatnip(){
     //if (catnip.value / catnip.maxValue < 0.95) { return; }
     //if (calendar.season == 2 && calendar.day > 50) { return; }
     gamePage.craftAll('wood');
+}
+
+function autoPray(){
+	var origTab = gamePage.activeTabId;
+    var faith = gamePage.resPool.get('faith');
+
+    if (faith.value / faith.maxValue > 0.95) {
+        gamePage.activeTabId = 'Religion'; gamePage.render();
+        $(".btnContent:contains('Praise the sun')").click();
+        gamePage.activeTabId = origTab; gamePage.render();
+    }
 }
